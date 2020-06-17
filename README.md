@@ -1,7 +1,7 @@
 # CC462Concurrentes
 Integrantes:
 
-.Barrientos Porras Herless Brayan
+.Barrientos Porras Herlees Brayan
 
 .Coronado Huamán Ayrton Fabio
 
