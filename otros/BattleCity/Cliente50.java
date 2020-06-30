@@ -141,29 +141,32 @@ class Cliente50 {
         }
         
         //cuando se envian mas elementos
-  /*     
-        else if (llego.length() == 16) {
+       
+        else if (llego.length() == 11) {
             
-            id = Integer.parseInt(llego.substring(4, 5));
+            if(Integer.parseInt(llego.substring(3, 4)) != id){
+            escena.insertar_jugador(Integer.parseInt(llego.substring(5, 7)), 
+                    Integer.parseInt(llego.substring(8, 11)), 
+                    Integer.parseInt(llego.substring(3, 4)));;
             
-            if (id == 0){
-            ClienteEnvia(llego+" 05 "+ "005");
-            escena.insertar_jugador(5, 5, id);
-            } else if (id == 1){
-            ClienteEnvia(llego+" 05 "+ "040");
-            escena.insertar_jugador(5, 40, id);
-            }
-            else if(id == 2){
-            ClienteEnvia(llego+" 05 "+ "080");
-            escena.insertar_jugador(5, 80, id);
-            }
         //conjunto de ids
         ids[Integer.parseInt(llego.substring(3,4))] = llego.substring(3,4).charAt(0);
         escena.mostrar();
-            
-  
         }
-         */
+  
+        } else if (llego.length() == 16){
+            
+               int id2 = Integer.parseInt(llego.substring(0, 2));
+               int x = Integer.parseInt(llego.substring(3, 5));
+               int y = Integer.parseInt(llego.substring(6, 9));
+               int xa = Integer.parseInt(llego.substring(10, 12));
+               int ya = Integer.parseInt(llego.substring(13, 16));
+               escena.limpiar_campo(xa, ya);
+               escena.pintar_campo(x, y);
+               escena.mostrar();
+        
+        }
+         
     }
         
     

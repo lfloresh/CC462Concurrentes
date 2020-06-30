@@ -48,7 +48,7 @@ public class Servidor50 {
         
         escena.mostrar();
         //Escenario escena = new Escenario();
-            System.out.println("imprimiendo prueba");
+            
             
         //\0 es el vacio de char
         
@@ -67,24 +67,26 @@ public class Servidor50 {
         if (llego.length() == 16) {
                 //recibe:   id x y xa ya
                 // 00 00 000 00 000
-               int id = Integer.parseInt(llego.substring(0, 2));
-               int x = Integer.parseInt(llego.substring(3, 5));
-               int y = Integer.parseInt(llego.substring(6, 9));
-               int xa = Integer.parseInt(llego.substring(10, 12));
-               int ya = Integer.parseInt(llego.substring(13, 16));
-               escena.limpiar_campo(xa, ya);
-               escena.pintar_campo(x, y);
+               int id2 = Integer.parseInt(llego.substring(0, 2));
+
+               
+               escena.limpiar_campo(Integer.parseInt(llego.substring(10, 12)), 
+                       Integer.parseInt(llego.substring(13, 16)));
+               escena.jugadores[id2].x = Integer.parseInt(llego.substring(3, 5));
+               escena.jugadores[id2].y = Integer.parseInt(llego.substring(6, 9));
+               escena.actualizar_pos_jugador(id2);
                escena.mostrar();
+               //enviar a los demas jugadores
                
-               //enviar a los demas excepto al que ha enviado el msj
-               
-               for (int i = 0; i<3;i++){
-                   if(i != Integer.parseInt(llego.substring(0, 2)) & ids[i] !='\0'){
-                       ServidorEnvia(llego, i);
+           
+                for (int j = 0; j<3;j++){
+                   if(j != Integer.parseInt(llego.substring(1, 2)) & ids[j] !='\0'){
+                       
+                       ServidorEnvia(llego, j);
                    }
                }
             
-            } else if(llego.contains("id")){
+            } else if(llego.contains("id") & llego.length() == 11){
                 //id i posx posy
                 //id 0 00 000
                 escena.insertar_jugador(Integer.parseInt(llego.substring(5,7)), 
@@ -93,12 +95,23 @@ public class Servidor50 {
                 escena.mostrar();
                 //conjunto de ids
                 ids[Integer.parseInt(llego.substring(3,4))] = llego.substring(3,4).charAt(0);
+                
                 //enviar a los demas
-                for (int i = 0; i<3;i++){
+                 for (int i = 0; i<3;i++){
                    if(i != Integer.parseInt(llego.substring(3, 4)) & ids[i] !='\0'){
                        ServidorEnvia(llego, i);
                    }
                }
+                //enviar las posiciones al id  de los actuales hilos disponibles
+                //excepto el mismo.
+                String enviar;
+                for (int j = 0; j<3;j++){
+                   if(j != Integer.parseInt(llego.substring(3, 4)) & ids[j] !='\0'){
+                       enviar = format(j,escena.jugadores[j].x,escena.jugadores[j].y);
+                       ServidorEnvia(enviar, Integer.parseInt(llego.substring(3, 4)));
+                   }
+               }
+                
             }
         }
    
@@ -115,6 +128,31 @@ public class Servidor50 {
         
         
         }
+    
+        String format(int id, int x, int y){
+        String tercer_parametro, segundo_parametro, string_envio;
+        if (Integer.toString(y).length() == 2){
+                tercer_parametro = "0"+String.valueOf(y);
+            }
+        else if (Integer.toString(y).length() == 1){
+            tercer_parametro = "00"+String.valueOf(y);
+        }
+        else{
+            tercer_parametro = String.valueOf(y);
+        }
+        
+        if (Integer.toString(x).length() == 1){
+                segundo_parametro = "0"+String.valueOf(x);
+            }
+        else{
+            segundo_parametro = String.valueOf(x);
+        }
+        
+        
+        //"id 0 00 000"
+           string_envio = "id "+String.valueOf(id) +" "+segundo_parametro+" " + tercer_parametro; 
+           return string_envio;
+    }
     }
     
 
