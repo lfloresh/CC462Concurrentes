@@ -2,10 +2,12 @@
 public class Jugador {
     int x;
     int y;
+    char simbol;
     
-    public Jugador(int x, int y){
+    public Jugador(int x, int y, char simbol){
         this.x = x;
         this.y = y;
+        this.simbol = simbol;
     
     }
     
@@ -25,3 +27,4 @@ public class Jugador {
         this.x = this.x + 2;
     }
 }
+
