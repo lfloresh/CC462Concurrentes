@@ -7,7 +7,7 @@ import java.util.concurrent.locks.Lock;
 public class Servidor50 {
     //int ids = 0;
     char ids[] = new char[3];
-    
+    char [] simbols = {'1', '2', '3'};
     TCPServer50 mTcpServer;
     Scanner sc;
     Escenario escena = new Escenario();
@@ -74,7 +74,7 @@ public class Servidor50 {
                        Integer.parseInt(llego.substring(13, 16)));
                escena.jugadores[id2].x = Integer.parseInt(llego.substring(3, 5));
                escena.jugadores[id2].y = Integer.parseInt(llego.substring(6, 9));
-               escena.actualizar_pos_jugador(id2);
+               escena.pintar_pos_jugador(id2);
                escena.mostrar();
                //enviar a los demas jugadores
                
@@ -91,7 +91,7 @@ public class Servidor50 {
                 //id 0 00 000
                 escena.insertar_jugador(Integer.parseInt(llego.substring(5,7)), 
                         Integer.parseInt(llego.substring(8,11)), 
-                        Integer.parseInt(llego.substring(3,4)));
+                        Integer.parseInt(llego.substring(3,4)), simbols[Integer.parseInt(llego.substring(3, 4))]);
                 escena.mostrar();
                 //conjunto de ids
                 ids[Integer.parseInt(llego.substring(3,4))] = llego.substring(3,4).charAt(0);
@@ -155,6 +155,3 @@ public class Servidor50 {
     }
     }
     
-
-    
-
