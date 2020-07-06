@@ -65,13 +65,12 @@ public class Escenario {
 
     public void mostrar() {
         for (int x = 0; x < matriz.length; x++) {
-            System.out.print("|");
             for (int y = 0; y < matriz[x].length; y++) {
                 System.out.print(matriz[x][y]);
                 if (y != matriz[x].length - 1)
                     ;
             }
-            System.out.println("|");
+            System.out.println("");
 
         }
 
