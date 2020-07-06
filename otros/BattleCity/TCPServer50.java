@@ -1,8 +1,6 @@
 
 
 
-
-
 import java.io.BufferedReader;
 
 
@@ -13,7 +11,7 @@ import java.net.Socket;
 
 public class TCPServer50 {
     private String message;
-    
+
     int nrcli = 0;
 
     public static final int SERVERPORT = 4444;
@@ -23,54 +21,55 @@ public class TCPServer50 {
 
     PrintWriter mOut;
     BufferedReader in;
-    
+
     ServerSocket serverSocket;
 
-    //el constructor pide una interface OnMessageReceived
+    // el constructor pide una interface OnMessageReceived
     public TCPServer50(OnMessageReceived messageListener) {
         this.messageListener = messageListener;
     }
-    
-    public OnMessageReceived getMessageListener(){/////¨
+
+    public OnMessageReceived getMessageListener() {///// ¨
         return this.messageListener;
     }
-    
-    public void sendMessageTCPServer(String message, int id){
-        
-            sendclis[id].sendMessage(message);
-            System.out.println("ENVIANDO A JUGADOR " + (id));
-        
+
+    public void sendMessageTCPServer(String message, int id) {
+
+        sendclis[id].sendMessage(message);
+        System.out.println("ENVIANDO A JUGADOR " + (id));
+
     }
- 
-    public void run(){
+
+    public void run() {
         running = true;
-        try{
-            System.out.println("TCP Server"+"S : Connecting...");
+        try {
+            System.out.println("TCP Server" + "S : Connecting...");
             serverSocket = new ServerSocket(SERVERPORT);
-            
-            while(running){
+
+            while (running) {
                 Socket client = serverSocket.accept();
-                System.out.println("TCP Server"+"S: Receiving...");
+                System.out.println("TCP Server" + "S: Receiving...");
                 nrcli++;
                 System.out.println("Engendrado " + nrcli);
-                sendclis[nrcli] = new TCPServerThread50(client,this,nrcli,sendclis);
+                sendclis[nrcli] = new TCPServerThread50(client, this, nrcli, sendclis);
                 Thread t = new Thread(sendclis[nrcli]);
                 t.start();
-                System.out.println("Nuevo conectado:"+ nrcli+" jugadores conectados");
-                //sendclis[nrcli].sendMessage("enviado algo prueba");
+                System.out.println("Nuevo conectado:" + nrcli + " jugadores conectados");
+                // sendclis[nrcli].sendMessage("enviado algo prueba");
             }
-            
-        }catch( Exception e){
-            System.out.println("Error"+e.getMessage());
-        }finally{
+
+        } catch (Exception e) {
+            System.out.println("Error" + e.getMessage());
+        } finally {
 
         }
     }
-    public  TCPServerThread50[] getClients(){
-        return sendclis;
-    } 
 
-    public  interface OnMessageReceived {
+    public TCPServerThread50[] getClients() {
+        return sendclis;
+    }
+
+    public interface OnMessageReceived {
         public void messageReceived(String message);
     }
 }
