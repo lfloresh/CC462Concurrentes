@@ -42,7 +42,7 @@ class Cliente50 {
         int ya;
         boolean no_muerto = true;
         // id x y xa ya
-        while (true & no_muerto) {
+        while (true && no_muerto) {
             
             
             char input = sc.next().charAt(0);
@@ -53,23 +53,13 @@ class Cliente50 {
                 if (!escena.esta_ocupado(escena.jugadores[id].x - 1, escena.jugadores[id].y)) {
                     xa = escena.jugadores[id].x;
                     ya = escena.jugadores[id].y;
-                    
-               
-                    
+
                     escena.jugadores[id].up();
                     envio = format(id, escena.jugadores[id].x, escena.jugadores[id].y, xa, ya);
 
                     ClienteEnvia(envio);
-                    escena.inicializar();
-                    escena.llenar_bombas();
-                    escena.llenar_jugadores();
+                    escena.refrescar_pantalla();
                     
-                    
-
-                    // id x y
-
-
-
                 }
 
             } else if (input == 's') {
@@ -81,13 +71,9 @@ class Cliente50 {
 
                     escena.jugadores[id].down();
                     envio = format(id, escena.jugadores[id].x, escena.jugadores[id].y, xa, ya);
-                    
-              
 
                     ClienteEnvia(envio);
-                    escena.inicializar();
-                    escena.llenar_bombas();
-                    escena.llenar_jugadores();
+                    escena.refrescar_pantalla();
                     
                     
                 }
@@ -97,18 +83,12 @@ class Cliente50 {
                 if (!escena.esta_ocupado(escena.jugadores[id].x, escena.jugadores[id].y - 1)) {
                     xa = escena.jugadores[id].x;
                     ya = escena.jugadores[id].y;
-                    
-                 
-                    
+
                     escena.jugadores[id].left();
                     envio = format(id, escena.jugadores[id].x, escena.jugadores[id].y, xa, ya);
-                    
-   
 
                     ClienteEnvia(envio);
-                    escena.inicializar();
-                    escena.llenar_bombas();
-                    escena.llenar_jugadores();
+                    escena.refrescar_pantalla();
                 }
                 
             } else if (input == 'd') {
@@ -121,11 +101,8 @@ class Cliente50 {
                     escena.jugadores[id].right();
                     envio = format(id, escena.jugadores[id].x, escena.jugadores[id].y, xa, ya);
                     
-
                     ClienteEnvia(envio);
-                    escena.inicializar();
-                    escena.llenar_bombas();
-                    escena.llenar_jugadores();
+                escena.refrescar_pantalla();
 
                 }
                 
@@ -136,27 +113,22 @@ class Cliente50 {
                
                 envio = format_bala(id, id_bala,escena.jugadores[id].x,escena.jugadores[id].y );
                 ClienteEnvia(envio);
-                //pintar una bomba
-              //  escena.jugadores[id].solto_bala = true;
-            
-            }
+
             escena.mostrar();
+            }
 
         } 
-           
 
     
     }
         
-        
-    //while
 
     //Crea jugadores 
     void ClienteRecibe(String llego) {
         //System.out.println("CLINTE50 El mensaje::" + llego);
 
         // crea el propio elemento
-        if (llego.contains("id") & llego.length() == 4) {
+        if (llego.contains("id") && llego.length() == 4) {
             
             id = Integer.parseInt(llego.substring(3, 4));
 
@@ -170,10 +142,7 @@ class Cliente50 {
             // conjunto de ids
             ids[Integer.parseInt(llego.substring(3, 4))] = llego.substring(3, 4).charAt(0);
             System.out.println("JUGADOR "+ escena.simbols[id] );
-            escena.inicializar();
-            escena.llenar_bombas();
-            escena.llenar_jugadores();
-            escena.mostrar();
+          escena.refrescar_pantalla();
 
         }
 
@@ -188,10 +157,7 @@ class Cliente50 {
 
                 // conjunto de ids
                 ids[Integer.parseInt(llego.substring(3, 4))] = llego.substring(3, 4).charAt(0);
-            escena.inicializar();
-            escena.llenar_bombas();
-            escena.llenar_jugadores();
-                escena.mostrar();
+            escena.refrescar_pantalla();
             }
 
          //actualiza jugadores
@@ -200,15 +166,12 @@ class Cliente50 {
             int id2 = Integer.parseInt(llego.substring(0, 2));
             int x = Integer.parseInt(llego.substring(3, 5));
             int y = Integer.parseInt(llego.substring(6, 9));
-            int xa = Integer.parseInt(llego.substring(10, 12));
-            int ya = Integer.parseInt(llego.substring(13, 16));
+
             
+            //
             escena.jugadores[id2].x = x;
             escena.jugadores[id2].y = y;
-            escena.inicializar();
-            escena.llenar_bombas();
-            escena.llenar_jugadores();
-            escena.mostrar();
+            escena.refrescar_pantalla();
 
         }
         //4 4 0a 00b  //
@@ -228,10 +191,7 @@ class Cliente50 {
              System.out.println("ESTAS MUERTO");
              System.exit(0); 
         }
-            escena.inicializar();
-            escena.llenar_bombas();
-            escena.llenar_jugadores();
-            escena.mostrar();
+            escena.refrescar_pantalla();
             
         }
 

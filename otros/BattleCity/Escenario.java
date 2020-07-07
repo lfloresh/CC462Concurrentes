@@ -51,8 +51,6 @@ public class Escenario {
         }
     }
     
-   
-    
     
 }
  public void llenar_jugadores(){
@@ -87,6 +85,13 @@ public class Escenario {
     }
  
  }
+ public void refrescar_pantalla(){
+     inicializar();
+     llenar_bombas();
+     llenar_jugadores();
+     mostrar();
+     
+ }
  
    public void mostrar(){
       for (int x=0; x < matriz.length; x++) {
@@ -99,11 +104,7 @@ public class Escenario {
        System.out.println("");
      
 }
-      
-      
-      
-      
-     
+
        
    }
    //verificar colision
@@ -139,17 +140,6 @@ public class Escenario {
    }
    
    
-
-   
-   public void pintar_pos_jugador(int id){
-      // matriz[jugadores[id].x][jugadores[id].y] = jugadores[id].simbol;
-               
-   }
-   
-   public void limpiar_campo(int x, int y){
-       //matriz[x][y] = ' ';
-   }
-   
    
    private int obtener_random_en_rango(int min, int max) {
 
@@ -159,37 +149,38 @@ public class Escenario {
 
    public boolean esta_muerto(int id ){
       
-       int x = jugadores[id].x;
-        int y = jugadores[id].y;
         int i =0;
         int m;
         int j = 0;
         int n;
-        //hay un simbolo que es diferente del mismo
-        char simbol_jugador = jugadores[id].simbol;
-    while(i < jugadores.length & jugadores[i] != null){
-       
-        while (j < jugadores[i].bala.length & jugadores[i].bala[j] != null){
+
+    while(i < jugadores.length && jugadores[i] != null){
+        //excluir al propio jugador (permite choque con propias balas)
+        // V V
+
+        if (i != id && jugadores[i].bala_simbol != ' ' ){
+            
+        while (j < jugadores[i].bala.length && jugadores[i].bala[j] != null){
                     m = jugadores[i].bala[j].x;
                     n = jugadores[i].bala[j].y;
                     //revisar logica
-                    if (simbol_jugador != jugadores[i].bala_simbol & m == jugadores[id].x & n == jugadores[id].y & jugadores[i].bala_simbol != ' ')
-                    {
-                    return true;
-                    }
-                    
+                        if (m == jugadores[id].x && n == jugadores[id].y){
+                            return true;
+                        }
                     j++;
                 }
+        }
             j=0;
             i++;
-            }
+           
+        //return false;
+    }
         return false;
-        
    }
    
   public void matar(int id){
       jugadores[id].simbol= ' ';
-      //jugadores[id].bala_simbol = ' ';
+      jugadores[id].bala_simbol = ' ';
   }
 }
 

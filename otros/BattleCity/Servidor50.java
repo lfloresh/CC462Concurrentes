@@ -71,43 +71,37 @@ public class Servidor50 {
             escena.jugadores[id2].y = Integer.parseInt(llego.substring(6, 9));
             
              if(escena.esta_muerto(id2)){
-                 
+                 escena.matar(id2);
                for (int j = 0; j < ids.length; j++) {
                  ServidorEnvia("muerto " + String.valueOf(id2),j);
                 }
             }
                       
                     
-            escena.inicializar();
-            escena.llenar_bombas();
-            escena.llenar_jugadores();
-            escena.mostrar();
+            escena.refrescar_pantalla();
             // enviar a los demas jugadores
 
 
             for (int j = 0; j < ids.length; j++) {
-                if (j != Integer.parseInt(llego.substring(1, 2)) & ids[j] != '\0') {
+                if (j != Integer.parseInt(llego.substring(1, 2)) && ids[j] != '\0') {
 
                     ServidorEnvia(llego, j);
                 }
             }
 
-        } else if (llego.contains("id") & llego.length() == 11) {
+        } else if (llego.contains("id") && llego.length() == 11) {
             // id i posx posy
             // id 0 00 000
             escena.insertar_jugador(Integer.parseInt(llego.substring(5, 7)),
                     Integer.parseInt(llego.substring(8, 11)),
                     Integer.parseInt(llego.substring(3, 4)));
-            escena.inicializar();
-            escena.llenar_bombas();
-            escena.llenar_jugadores();
-            escena.mostrar();
+            escena.refrescar_pantalla();
             // conjunto de ids
             ids[Integer.parseInt(llego.substring(3, 4))] = llego.substring(3, 4).charAt(0);
 
             // enviar a los demas
             for (int i = 0; i < ids.length; i++) {
-                if ( i != Integer.parseInt(llego.substring(3, 4)) &ids[i] != '\0') {
+                if ( i != Integer.parseInt(llego.substring(3, 4)) && ids[i] != '\0') {
                     ServidorEnvia(llego, i);
                 }
             }
@@ -115,7 +109,7 @@ public class Servidor50 {
             // excepto el mismo.
             String enviar;
             for (int j = 0; j < ids.length; j++) {
-                if (j != Integer.parseInt(llego.substring(3, 4)) & ids[j] != '\0') {
+                if (j != Integer.parseInt(llego.substring(3, 4)) && ids[j] != '\0') {
                     enviar = format(j, escena.jugadores[j].x, escena.jugadores[j].y);
                     ServidorEnvia(enviar, Integer.parseInt(llego.substring(3, 4)));
                 }
@@ -132,7 +126,7 @@ public class Servidor50 {
         escena.jugadores[id1].insertar_bala(x, y, id2);
         
         for (int j = 0; j < ids.length; j++) {
-                if (j != Integer.parseInt(llego.substring(0, 1)) & ids[j] != '\0') {
+                if (j != Integer.parseInt(llego.substring(0, 1)) && ids[j] != '\0') {
 
                     ServidorEnvia(llego, j);
                 }

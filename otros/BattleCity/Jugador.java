@@ -4,7 +4,6 @@ public class Jugador {
     int y;
     char simbol;
     char bala_simbol;
-    public boolean solto_bala = false;
     int id_bala = 0;
     Bala bala[] = new Bala[30];
     
