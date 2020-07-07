@@ -133,7 +133,7 @@ public class Escenario {
        matriz[x][y] = simbols[id];
    }
    
-      public void insertar_jugador(int x, int y, int id){
+    public void insertar_jugador(int x, int y, int id){
        
        jugadores[id] = new Jugador(x, y, simbols[id], simbols_bala[id]);
        //matriz[x][y] = simbols[id];
@@ -157,7 +157,6 @@ public class Escenario {
     while(i < jugadores.length && jugadores[i] != null){
         //excluir al propio jugador (permite choque con propias balas)
         // V V
-
         if (i != id && jugadores[i].bala_simbol != ' ' ){
             
         while (j < jugadores[i].bala.length && jugadores[i].bala[j] != null){

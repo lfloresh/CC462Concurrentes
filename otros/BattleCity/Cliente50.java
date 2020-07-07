@@ -8,6 +8,7 @@ class Cliente50 {
     public int sum[] = new int[40];
     TCPClient50 mTcpClient;
     Scanner sc;
+    Scanner sc_ip;
     Escenario escena = new Escenario();
 
     public static void main(String[] args) {
@@ -20,7 +21,11 @@ class Cliente50 {
 
             @Override
             public void run() {
-                mTcpClient = new TCPClient50("192.168.1.131", new TCPClient50.OnMessageReceived() {
+                System.out.println("Ingrese ip: ");
+                sc_ip = new Scanner(System.in);
+                String ip = sc_ip.nextLine();
+                // "192.168.1.131"
+                mTcpClient = new TCPClient50(ip, new TCPClient50.OnMessageReceived() {
                     @Override
                     public void messageReceived(String message) {
                         ClienteRecibe(message);
@@ -109,19 +114,19 @@ class Cliente50 {
 
               // "4 4 00 000"
             } else if (input == 'e'){
+                
                 int id_bala = escena.jugadores[id].insertar_bala();
                
                 envio = format_bala(id, id_bala,escena.jugadores[id].x,escena.jugadores[id].y );
                 ClienteEnvia(envio);
 
-            escena.mostrar();
+                //escena.mostrar();
             }
 
         } 
 
     
     }
-        
 
     //Crea jugadores 
     void ClienteRecibe(String llego) {
@@ -130,10 +135,7 @@ class Cliente50 {
         // crea el propio elemento
         if (llego.contains("id") && llego.length() == 4) {
             
-            id = Integer.parseInt(llego.substring(3, 4));
-
-            
-                
+                id = Integer.parseInt(llego.substring(3, 4));
                 escena.insertar_jugador(id);
                 String x1 = obtener_string_x(escena.jugadores[id].x);
                 String y1 = obtener_string_y(escena.jugadores[id].y);
@@ -167,8 +169,6 @@ class Cliente50 {
             int x = Integer.parseInt(llego.substring(3, 5));
             int y = Integer.parseInt(llego.substring(6, 9));
 
-            
-            //
             escena.jugadores[id2].x = x;
             escena.jugadores[id2].y = y;
             escena.refrescar_pantalla();

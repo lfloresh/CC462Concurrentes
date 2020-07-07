@@ -84,7 +84,6 @@ public class Servidor50 {
 
             for (int j = 0; j < ids.length; j++) {
                 if (j != Integer.parseInt(llego.substring(1, 2)) && ids[j] != '\0') {
-
                     ServidorEnvia(llego, j);
                 }
             }
@@ -117,7 +116,7 @@ public class Servidor50 {
 
                // recibe  "4 4 00 000"
         } else if (llego.length() == 10){
-            
+            //recibe bombas
         int id1 = Integer.parseInt(llego.substring(0,1));
         int id2 = Integer.parseInt(llego.substring(2,3));
         int x = Integer.parseInt(llego.substring(4,6));
