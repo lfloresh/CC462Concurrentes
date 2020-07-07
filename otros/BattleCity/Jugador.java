@@ -2,10 +2,17 @@
 public class Jugador {
     int x;
     int y;
-
-    public Jugador(int x, int y) {
+    char simbol;
+    char bala_simbol;
+    public boolean solto_bala = false;
+    
+    int bala[] = new int[2];
+    
+    public Jugador(int x, int y, char simbol, char bala_simbol) {
         this.x = x;
         this.y = y;
+        this.simbol = simbol;
+        this.bala_simbol = bala_simbol;
 
     }
 
@@ -24,4 +31,6 @@ public class Jugador {
     public void down() {
         this.x = this.x + 2;
     }
+    
+
 }

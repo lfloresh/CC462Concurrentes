@@ -6,7 +6,7 @@ import java.util.concurrent.locks.Lock;
 
 public class Servidor50 {
     // int ids = 0;
-    char ids[] = new char[3];
+    char ids[] = new char[30];
 
     TCPServer50 mTcpServer;
     Scanner sc;
@@ -70,14 +70,15 @@ public class Servidor50 {
 
             escena.limpiar_campo(Integer.parseInt(llego.substring(10, 12)),
                     Integer.parseInt(llego.substring(13, 16)));
+            
             escena.jugadores[id2].x = Integer.parseInt(llego.substring(3, 5));
             escena.jugadores[id2].y = Integer.parseInt(llego.substring(6, 9));
-            escena.actualizar_pos_jugador(id2);
+            escena.pintar_pos_jugador(id2);
             escena.mostrar();
             // enviar a los demas jugadores
 
 
-            for (int j = 0; j < 3; j++) {
+            for (int j = 0; j < ids.length; j++) {
                 if (j != Integer.parseInt(llego.substring(1, 2)) & ids[j] != '\0') {
 
                     ServidorEnvia(llego, j);
@@ -95,7 +96,7 @@ public class Servidor50 {
             ids[Integer.parseInt(llego.substring(3, 4))] = llego.substring(3, 4).charAt(0);
 
             // enviar a los demas
-            for (int i = 0; i < 3; i++) {
+            for (int i = 0; i < ids.length; i++) {
                 if (i != Integer.parseInt(llego.substring(3, 4)) & ids[i] != '\0') {
                     ServidorEnvia(llego, i);
                 }
@@ -103,7 +104,7 @@ public class Servidor50 {
             // enviar las posiciones al id de los actuales hilos disponibles
             // excepto el mismo.
             String enviar;
-            for (int j = 0; j < 3; j++) {
+            for (int j = 0; j < ids.length; j++) {
                 if (j != Integer.parseInt(llego.substring(3, 4)) & ids[j] != '\0') {
                     enviar = format(j, escena.jugadores[j].x, escena.jugadores[j].y);
                     ServidorEnvia(enviar, Integer.parseInt(llego.substring(3, 4)));
