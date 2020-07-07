@@ -66,14 +66,21 @@ public class Servidor50 {
             // recibe: id x y xa ya
             // 00 00 000 00 000
             int id2 = Integer.parseInt(llego.substring(0, 2));
-
-
-            escena.limpiar_campo(Integer.parseInt(llego.substring(10, 12)),
-                    Integer.parseInt(llego.substring(13, 16)));
             
             escena.jugadores[id2].x = Integer.parseInt(llego.substring(3, 5));
             escena.jugadores[id2].y = Integer.parseInt(llego.substring(6, 9));
-            escena.pintar_pos_jugador(id2);
+            
+             if(escena.esta_muerto(id2)){
+                 
+               for (int j = 0; j < ids.length; j++) {
+                 ServidorEnvia("muerto " + String.valueOf(id2),j);
+                }
+            }
+                      
+                    
+            escena.inicializar();
+            escena.llenar_bombas();
+            escena.llenar_jugadores();
             escena.mostrar();
             // enviar a los demas jugadores
 
@@ -91,13 +98,16 @@ public class Servidor50 {
             escena.insertar_jugador(Integer.parseInt(llego.substring(5, 7)),
                     Integer.parseInt(llego.substring(8, 11)),
                     Integer.parseInt(llego.substring(3, 4)));
+            escena.inicializar();
+            escena.llenar_bombas();
+            escena.llenar_jugadores();
             escena.mostrar();
             // conjunto de ids
             ids[Integer.parseInt(llego.substring(3, 4))] = llego.substring(3, 4).charAt(0);
 
             // enviar a los demas
             for (int i = 0; i < ids.length; i++) {
-                if (i != Integer.parseInt(llego.substring(3, 4)) & ids[i] != '\0') {
+                if ( i != Integer.parseInt(llego.substring(3, 4)) &ids[i] != '\0') {
                     ServidorEnvia(llego, i);
                 }
             }
@@ -111,6 +121,23 @@ public class Servidor50 {
                 }
             }
 
+               // recibe  "4 4 00 000"
+        } else if (llego.length() == 10){
+            
+        int id1 = Integer.parseInt(llego.substring(0,1));
+        int id2 = Integer.parseInt(llego.substring(2,3));
+        int x = Integer.parseInt(llego.substring(4,6));
+        int y = Integer.parseInt(llego.substring(7,10));
+         
+        escena.jugadores[id1].insertar_bala(x, y, id2);
+        
+        for (int j = 0; j < ids.length; j++) {
+                if (j != Integer.parseInt(llego.substring(0, 1)) & ids[j] != '\0') {
+
+                    ServidorEnvia(llego, j);
+                }
+            }
+        
         }
     }
 

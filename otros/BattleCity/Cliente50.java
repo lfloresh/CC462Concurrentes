@@ -44,28 +44,27 @@ class Cliente50 {
         // id x y xa ya
         while (true & no_muerto) {
             
-            if(no_muerto == true){
+            
             char input = sc.next().charAt(0);
             
             // actualizar escena
             if (input == 'w') {
 
-                if (!escena.esta_ocupado(escena.jugadores[id].x - 2, escena.jugadores[id].y)) {
+                if (!escena.esta_ocupado(escena.jugadores[id].x - 1, escena.jugadores[id].y)) {
                     xa = escena.jugadores[id].x;
                     ya = escena.jugadores[id].y;
                     
-                    if(escena.jugadores[id].solto_bala == false){
-                    escena.limpiar_campo(xa, ya);
-                    }
+               
                     
                     escena.jugadores[id].up();
                     envio = format(id, escena.jugadores[id].x, escena.jugadores[id].y, xa, ya);
+
                     ClienteEnvia(envio);
-                    escena.pintar_pos_jugador(id);
+                    escena.inicializar();
+                    escena.llenar_bombas();
+                    escena.llenar_jugadores();
                     
-                    if(escena.esta_muerto(id)){
-                       no_muerto = false;
-                    }
+                    
 
                     // id x y
 
@@ -75,76 +74,78 @@ class Cliente50 {
 
             } else if (input == 's') {
 
-                if (!escena.esta_ocupado(escena.jugadores[id].x + 2, escena.jugadores[id].y)) {
+                if (!escena.esta_ocupado(escena.jugadores[id].x + 1, escena.jugadores[id].y)) {
                     xa = escena.jugadores[id].x;
                     ya = escena.jugadores[id].y;
                     
-                    if(escena.jugadores[id].solto_bala == false){
-                    escena.limpiar_campo(xa, ya);
-                    }
+
                     escena.jugadores[id].down();
                     envio = format(id, escena.jugadores[id].x, escena.jugadores[id].y, xa, ya);
-                    ClienteEnvia(envio);
-                    escena.pintar_pos_jugador(id);
                     
-                    if(escena.esta_muerto(id)){
-                       no_muerto = false;
-                    }
+              
 
+                    ClienteEnvia(envio);
+                    escena.inicializar();
+                    escena.llenar_bombas();
+                    escena.llenar_jugadores();
+                    
+                    
                 }
 
             } else if (input == 'a') {
 
-                if (!escena.esta_ocupado(escena.jugadores[id].x, escena.jugadores[id].y - 2)) {
+                if (!escena.esta_ocupado(escena.jugadores[id].x, escena.jugadores[id].y - 1)) {
                     xa = escena.jugadores[id].x;
                     ya = escena.jugadores[id].y;
                     
-                    if(escena.jugadores[id].solto_bala == false){
-                    escena.limpiar_campo(xa, ya);
-                    }
+                 
                     
                     escena.jugadores[id].left();
                     envio = format(id, escena.jugadores[id].x, escena.jugadores[id].y, xa, ya);
+                    
+   
+
                     ClienteEnvia(envio);
-                    escena.pintar_pos_jugador(id);
-
+                    escena.inicializar();
+                    escena.llenar_bombas();
+                    escena.llenar_jugadores();
                 }
-                if(escena.esta_muerto(id)){
-                       no_muerto = false;
-                    }
-
+                
             } else if (input == 'd') {
 
-                if (!escena.esta_ocupado(escena.jugadores[id].x, escena.jugadores[id].y + 2)) {
+                if (!escena.esta_ocupado(escena.jugadores[id].x, escena.jugadores[id].y + 1)) {
                     xa = escena.jugadores[id].x;
                     ya = escena.jugadores[id].y;
                     
-                    if(escena.jugadores[id].solto_bala == false){
-                    escena.limpiar_campo(xa, ya);
-                    }
+
                     escena.jugadores[id].right();
                     envio = format(id, escena.jugadores[id].x, escena.jugadores[id].y, xa, ya);
+                    
+
                     ClienteEnvia(envio);
-                    escena.pintar_pos_jugador(id);
+                    escena.inicializar();
+                    escena.llenar_bombas();
+                    escena.llenar_jugadores();
 
                 }
-                if(escena.esta_muerto(id)){
-                       no_muerto = false;
-                    }
+                
 
+              // "4 4 00 000"
             } else if (input == 'e'){
+                int id_bala = escena.jugadores[id].insertar_bala();
+               
+                envio = format_bala(id, id_bala,escena.jugadores[id].x,escena.jugadores[id].y );
+                ClienteEnvia(envio);
                 //pintar una bomba
               //  escena.jugadores[id].solto_bala = true;
             
             }
             escena.mostrar();
 
-        } else{
-            System.out.println("ESTAS MUERTO");
-            //System.out.println("Cliente bandera 02");
-            }
-         
-        }
+        } 
+           
+
+    
     }
         
         
@@ -152,7 +153,7 @@ class Cliente50 {
 
     //Crea jugadores 
     void ClienteRecibe(String llego) {
-        System.out.println("CLINTE50 El mensaje::" + llego);
+        //System.out.println("CLINTE50 El mensaje::" + llego);
 
         // crea el propio elemento
         if (llego.contains("id") & llego.length() == 4) {
@@ -169,6 +170,9 @@ class Cliente50 {
             // conjunto de ids
             ids[Integer.parseInt(llego.substring(3, 4))] = llego.substring(3, 4).charAt(0);
             System.out.println("JUGADOR "+ escena.simbols[id] );
+            escena.inicializar();
+            escena.llenar_bombas();
+            escena.llenar_jugadores();
             escena.mostrar();
 
         }
@@ -184,6 +188,9 @@ class Cliente50 {
 
                 // conjunto de ids
                 ids[Integer.parseInt(llego.substring(3, 4))] = llego.substring(3, 4).charAt(0);
+            escena.inicializar();
+            escena.llenar_bombas();
+            escena.llenar_jugadores();
                 escena.mostrar();
             }
 
@@ -195,12 +202,37 @@ class Cliente50 {
             int y = Integer.parseInt(llego.substring(6, 9));
             int xa = Integer.parseInt(llego.substring(10, 12));
             int ya = Integer.parseInt(llego.substring(13, 16));
-            escena.limpiar_campo(xa, ya);
+            
             escena.jugadores[id2].x = x;
             escena.jugadores[id2].y = y;
-            escena.pintar_pos_jugador(id2);
+            escena.inicializar();
+            escena.llenar_bombas();
+            escena.llenar_jugadores();
             escena.mostrar();
 
+        }
+        //4 4 0a 00b  //
+        else if (llego.length() == 10){
+
+            int id3 = Integer.parseInt(llego.substring(0,1));
+            int id4 = Integer.parseInt(llego.substring(2,3));
+            int x = Integer.parseInt(llego.substring(4,6));
+            int y = Integer.parseInt(llego.substring(7,10));
+            escena.jugadores[id3].insertar_bala(x, y ,id4);
+        }
+        // "muerto 0"
+        else if (llego.contains("muerto")){
+            int id_recibido = Integer.parseInt(llego.substring(7,8));
+            escena.matar(id_recibido);
+            if (id_recibido == id){
+             System.out.println("ESTAS MUERTO");
+             System.exit(0); 
+        }
+            escena.inicializar();
+            escena.llenar_bombas();
+            escena.llenar_jugadores();
+            escena.mostrar();
+            
         }
 
     }
@@ -275,6 +307,24 @@ class Cliente50 {
     
     }
 
+    String format_bala(int id, int id2 ,int x, int y) {
+        String tercer_parametro, segundo_parametro, string_envio;
+        if (Integer.toString(y).length() == 2) {
+            tercer_parametro = "0" + String.valueOf(y);
+        } else if (Integer.toString(y).length() == 1) {
+            tercer_parametro = "00" + String.valueOf(y);
+        } else {
+            tercer_parametro = String.valueOf(y);
+        }
 
+        if (Integer.toString(x).length() == 1) {
+            segundo_parametro = "0" + String.valueOf(x);
+        } else {
+            segundo_parametro = String.valueOf(x);
+        }
+        // "00 00 000 00 000"
+        string_envio = String.valueOf(id) + " " + String.valueOf(id2) +" " +segundo_parametro + " " + tercer_parametro;
+        return string_envio;
+    }
 
 }

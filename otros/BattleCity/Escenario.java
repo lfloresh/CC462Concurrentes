@@ -5,10 +5,10 @@ public class Escenario {
     char simbols[] = {'A','B','C','D','E','F','G','H','I'};
     char simbols_bala[] = {'1','2','3','4','5','6','7','8','9'};
     Escenario() {
-        inicializar(matriz);
+        inicializar();
           
        }
- public void inicializar(char [][] matriz){
+ public void inicializar(){
     for (int x = 0; x < matriz.length; x++) {
         for (int y = 0; y < matriz[x].length; y++) {
             if (x < 38 & x > 2 & y > 2 & y < 10) {
@@ -50,7 +50,44 @@ public class Escenario {
             }
         }
     }
+    
+   
+    
+    
 }
+ public void llenar_jugadores(){
+  //rellenar matriz
+    int m;
+    int n;
+    int i = 0;
+    while(i < jugadores.length & jugadores[i] != null){
+        m = jugadores[i].x;
+        n = jugadores[i].y;
+        matriz[m][n] = jugadores[i].simbol;
+    i++;
+    }
+ 
+ }
+ 
+ public void llenar_bombas(){
+    int m;
+    int n;
+    int i = 0;
+    int j = 0;
+    while(i < jugadores.length & jugadores[i] != null){
+       
+        while (j < jugadores[i].bala.length & jugadores[i].bala[j] != null){
+                    m = jugadores[i].bala[j].x;
+                    n = jugadores[i].bala[j].y;
+                    matriz[m][n] = jugadores[i].bala_simbol;
+            j++;
+        }
+      j=0;
+    i++;
+    }
+ 
+ }
+ 
    public void mostrar(){
       for (int x=0; x < matriz.length; x++) {
        for (int y=0; y < matriz[x].length; y++) {
@@ -63,16 +100,16 @@ public class Escenario {
      
 }
       
-      //PINTAR JUGADORES
       
       
-      //PINTAR BOMBAS
+      
+     
        
    }
    //verificar colision
    public boolean esta_ocupado(int x, int y){
        
-       if(matriz[x][y] == ' '){
+       if(matriz[x][y] != '*'){
            return false;
        }
        else {
@@ -98,50 +135,61 @@ public class Escenario {
       public void insertar_jugador(int x, int y, int id){
        
        jugadores[id] = new Jugador(x, y, simbols[id], simbols_bala[id]);
-       matriz[x][y] = simbols[id];
+       //matriz[x][y] = simbols[id];
    }
    
    
 
    
    public void pintar_pos_jugador(int id){
-       matriz[jugadores[id].x][jugadores[id].y] = jugadores[id].simbol;
+      // matriz[jugadores[id].x][jugadores[id].y] = jugadores[id].simbol;
                
    }
    
    public void limpiar_campo(int x, int y){
-       matriz[x][y] = ' ';
+       //matriz[x][y] = ' ';
    }
    
    
    private int obtener_random_en_rango(int min, int max) {
 
-		if (min >= max) {
-			throw new IllegalArgumentException("max must be greater than min");
-		}
-
 		Random r = new Random();
 		return r.nextInt((max - min) + 1) + min;
 	}
 
-   public boolean esta_muerto(int id){
+   public boolean esta_muerto(int id ){
+      
        int x = jugadores[id].x;
         int y = jugadores[id].y;
-        int i;
-        //caracter en pos en la que el jugador se ha movido
-        char pos = matriz[x][y];
-        
-        //hay un simbolo que es diferente del mio
+        int i =0;
+        int m;
+        int j = 0;
+        int n;
+        //hay un simbolo que es diferente del mismo
         char simbol_jugador = jugadores[id].simbol;
-        for (i = 0; i<=8 ;i++){
-            //lo que hay en esta posicion con los simbolos
-            if( pos == simbols_bala[i] & pos != simbol_jugador ){
-                return true;
+    while(i < jugadores.length & jugadores[i] != null){
+       
+        while (j < jugadores[i].bala.length & jugadores[i].bala[j] != null){
+                    m = jugadores[i].bala[j].x;
+                    n = jugadores[i].bala[j].y;
+                    //revisar logica
+                    if (simbol_jugador != jugadores[i].bala_simbol & m == jugadores[id].x & n == jugadores[id].y & jugadores[i].bala_simbol != ' ')
+                    {
+                    return true;
+                    }
+                    
+                    j++;
+                }
+            j=0;
+            i++;
             }
-        
-        }
         return false;
         
    }
+   
+  public void matar(int id){
+      jugadores[id].simbol= ' ';
+      //jugadores[id].bala_simbol = ' ';
+  }
 }
 
