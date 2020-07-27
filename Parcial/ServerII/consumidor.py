@@ -1,7 +1,7 @@
 import sys
 import socket as sk
 
-host = "127.0.0.1"
+host = "13.59.160.76"
 port = 32000
 
 sCliente =  sk.socket()

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <winsock2.h>
-
+#include<string>
+//-lws2_32
 using namespace std;
 
 class Client{
@@ -14,7 +15,7 @@ public:
         cout<<"Conectando al servidor..."<<endl<<endl;
         WSAStartup(MAKEWORD(2,0), &WSAData);
         server = socket(AF_INET, SOCK_STREAM, 0);
-        addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+        addr.sin_addr.s_addr = inet_addr("13.59.160.76");
         addr.sin_family = AF_INET;
         addr.sin_port = htons(32000);
         connect(server, (SOCKADDR *)&addr, sizeof(addr));
@@ -22,9 +23,10 @@ public:
     }
     void Enviar()
     {   
-        string enviar;
+        char buffer2[512];
         cout<<"Texto a enviar: ";
-        cin>>enviar;
+        cin.getline(buffer2, sizeof(buffer2));
+        string enviar(buffer2);
         string total = "productor " + enviar;
         char buffertotal[512];
         strcpy(buffertotal, total.c_str());

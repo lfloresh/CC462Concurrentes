@@ -6,6 +6,7 @@
 
 using namespace std;
 
+//-lws2_32
 class Client{
 public:
     WSADATA WSAData;
@@ -18,7 +19,7 @@ public:
         cout<<"Conectando al servidor..."<<endl<<endl;
         WSAStartup(MAKEWORD(2,0), &WSAData);
         server = socket(AF_INET, SOCK_STREAM, 0);
-        addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+        addr.sin_addr.s_addr = inet_addr("13.59.160.76");
         addr.sin_family = AF_INET;
         addr.sin_port = htons(32000);
         connect(server, (SOCKADDR *)&addr, sizeof(addr));
@@ -29,7 +30,7 @@ public:
         int id;
         int return_value = 0;
         while (!return_value) {
-            printf("A que consumidor enviar?:");
+            cout<<"\nA que consumidor enviar?:";
             return_value = scanf("%d", &id);
             while(getchar() !='\n') {
                 continue;
@@ -48,8 +49,8 @@ public:
         memset(aux, 0, sizeof(buffer));
 
         cout<<"Texto a enviar: ";
-        cin>>enviar;
-        strcpy(aux, enviar.c_str());
+        cin.getline(aux,sizeof(aux));
+        cout<<aux;
         strncpy(buffer, aux, sizeof(buffer) - 1);
         send(server, buffer, sizeof(buffer), 0);
         memset(buffer, 0, sizeof(buffer));

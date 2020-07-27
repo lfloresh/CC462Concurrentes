@@ -21,7 +21,7 @@ def capturar_opcion():
     return enviar
 
 
-host = "127.0.0.1"
+host = "13.59.160.76"
 port = 32000
 
 
@@ -31,7 +31,7 @@ while True:
     try:
         identificador = input("Ingrese un numero identificador: ")
         x = int(identificador)
-    except ValueError or identificador >= 100:
+    except ValueError:
         print("El ingreso no es valido")
     else:
         break
