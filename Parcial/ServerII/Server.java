@@ -1,13 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
-/**
- *
- * @author MenTaLisT
- */
 import java.util.LinkedList;
 import java.util.List;
 import java.io.IOException;
@@ -99,7 +90,7 @@ public class Server {
             System.out.println(s);
             }
             
-
+        //cuando se conecta por primera vez
         } else if(recibido.contains("consumidor")){
 
             for (String s: cola){
@@ -111,7 +102,7 @@ public class Server {
             outw.write("fincola".toCharArray());
             outw.flush();
           } else if(recibido.contains("consumir ")){
-              System.out.println(recibido);
+              //System.out.println(recibido);
               String capturar = recibido.substring(9, recibido.length());
         
               int elemento = Integer.parseInt(capturar.trim());

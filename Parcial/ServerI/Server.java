@@ -1,13 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
-/**
- *
- * @author MenTaLisT
- */
 import java.util.LinkedList;
 import java.util.Queue;
 import java.io.IOException;
@@ -79,7 +70,7 @@ public class Server {
                    recibido = "";
 
                    cbuf = new char[512];
-        }
+                }
                 
             } catch (IOException e) {
                 e.printStackTrace();
