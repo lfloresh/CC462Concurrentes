@@ -35,7 +35,7 @@ public class Server {
             //Escuchador de clientes
             ListenClients listen = new ListenClients(server, clientList);
             new Thread(listen).start();
-            process_archive("src/main/java/listapalabras4.txt");
+            process_archive("src/main/java/listapalabras1.txt");
 
             //Interactuador
             
@@ -50,7 +50,7 @@ public class Server {
                 
                  for(String palabra : listaPalabras){  
                      
-                     tarea = new Tarea(5, palabra);
+                     tarea = new Tarea(6, palabra);
                      sendToAll(tarea);
                      do{
                         //verifica cada segundo si ha encontrado el resultado y esta confirmado por todos
@@ -58,14 +58,13 @@ public class Server {
                         
                      }while(encontrado == false && confirmar_resultado());
                      //reinicializar
-                     encontrado = false;
+                      encontrado = false;
                         for(ClientHandler client : clientList){
                             client.confirmado = false;
                           
                         }
                  }
-                
-                
+
             }
             
         } catch (IOException e) {
@@ -118,16 +117,13 @@ public class Server {
         
         Socket clientSocket;
         int id;
-        int nzeros;
         boolean confirmado = false;
-        boolean continuar = true;
         ObjectOutputStream outw;
         ObjectInputStream inw;
         
-        public ClientHandler(Socket clientSocket, int id, int nzeros) throws IOException{
+        public ClientHandler(Socket clientSocket, int id) throws IOException{
             this.clientSocket = clientSocket;
-            this.id = id;
-            this.nzeros = nzeros;
+            this.id = id;        
             inw = new ObjectInputStream(clientSocket.getInputStream());
             outw = new ObjectOutputStream(clientSocket.getOutputStream());
         }
@@ -191,7 +187,7 @@ public class Server {
     
     private static class ListenClients implements Runnable {
         
-          //array de 100 handlers
+          //lista de handlers
         ArrayList<ClientHandler> clientList;
        
         private int counter = 0;
@@ -214,7 +210,7 @@ public class Server {
                 client = server.accept();
                                   
                 System.out.println("Nuevo cliente conectado "+ counter + "  "+ client.getInetAddress().getHostAddress());
-                clientList.add(new ClientHandler(client, counter, 0));
+                clientList.add(new ClientHandler(client, counter));
                
                 
                 // The background thread will handle each client separately
