@@ -43,20 +43,20 @@ public class Server {
             System.out.println("Interactuando ...");
             
             while(true){
-                System.out.println("Escribe algo:");
+                //System.out.println("Escribe algo:");
                 interactuador = sc.nextLine(); 
                 System.out.println("Ha escrito: " + interactuador);
                 //enviar tareas
                 
                  for(String palabra : listaPalabras){  
                      
-                     tarea = new Tarea(6, palabra);
+                     tarea = new Tarea(4, palabra);
                      sendToAll(tarea);
                      do{
                         //verifica cada segundo si ha encontrado el resultado y esta confirmado por todos
                         Thread.sleep(1000);
                         
-                     }while(encontrado == false && confirmar_resultado());
+                     }while(encontrado == false || confirmar_resultado() == false);
                      //reinicializar
                       encontrado = false;
                         for(ClientHandler client : clientList){
@@ -157,7 +157,7 @@ public class Server {
                 if(recibir_confirmado.contains("confirmado")){
                     confirmado = true;
                 }
-              System.out.println("Message: " + recibido);              
+              //System.out.println("Message: " + recibido);              
             }
             
             else if(recibido instanceof Resultado){

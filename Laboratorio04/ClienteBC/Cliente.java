@@ -43,13 +43,10 @@ public class Cliente {
     
     
     private static class Listen implements Runnable{
-        //ObjectOutputStream outw;
-        //ObjectInputStream inw;
-        
+        Socket socket;
         Listen(Socket socket) throws IOException{
-            //inw = new ObjectInputStream(socket.getInputStream());
-            //outw = new ObjectOutputStream(socket.getOutputStream());
-        
+         
+        this.socket = socket;
         }
         @Override
         public void run() {
@@ -103,8 +100,8 @@ public class Cliente {
                 resultado.mostrar();
                 
                 if(corroborar(resultado)){
-                   // outw.writeObject("confirmado por "+ id);
-                   // outw.flush();
+                   outw.writeObject("confirmado por "+ id);
+                   outw.flush();
                 }
                 //evaluo resultado
                 
@@ -171,8 +168,11 @@ public class Cliente {
                 int key = (int) (Math.random() * 10000000);
                 String z = tarea.mensaje + String.valueOf(key);
                 
+                
                 byte[] dataBuffer = (z).getBytes();
                 String thedigest = shaOne.Encript(dataBuffer);
+                
+                //String thedigest = shaOne.sha1encrypt(z);
                 sumz = 0;
                 for (int j = 0; j < tarea.nzeros; j++) {
                     if (thedigest.charAt(j) == '0') {

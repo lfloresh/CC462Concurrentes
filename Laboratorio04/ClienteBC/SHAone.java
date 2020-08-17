@@ -1,5 +1,6 @@
 import java.nio.ByteBuffer;
 
+
 public class SHAone {
 
     int A, B, C, D, E;
@@ -20,6 +21,8 @@ public class SHAone {
         int passesReq = paddedData.length / 64;
         byte[] work = new byte[64];
 
+
+        
         for (int passCntr = 0; passCntr < passesReq; passCntr++) {
             System.arraycopy(paddedData, 64 * passCntr, work, 0, 64);
             processTheBlock(work, H, K);
@@ -130,16 +133,7 @@ public class SHAone {
         H[3] += D;
         H[4] += E;
 
-        int n;
-//        for (n = 0; n < 16; n++) {
-//            System.out.println("W[" + n + "] = " + toHexString(W[n]));
-//        }
 
-//        System.out.println("H0:" + Integer.toHexString(H[0]));
-//        System.out.println("H0:" + Integer.toHexString(H[1]));
-//        System.out.println("H0:" + Integer.toHexString(H[2]));
-//        System.out.println("H0:" + Integer.toHexString(H[3]));
-//        System.out.println("H0:" + Integer.toHexString(H[4]));
     }
 
     private String intArrayToHexStr(int[] data) {
@@ -199,4 +193,6 @@ public class SHAone {
         }
         return ZEROS.substring(s.length()) + s;
     }
+    
+
 }
