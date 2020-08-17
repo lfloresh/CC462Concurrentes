@@ -103,8 +103,8 @@ public class Cliente {
                 resultado.mostrar();
                 
                 if(corroborar(resultado)){
-                    outw.writeObject("confirmado por "+ id);
-                    outw.flush();
+                   // outw.writeObject("confirmado por "+ id);
+                   // outw.flush();
                 }
                 //evaluo resultado
                 
@@ -184,7 +184,7 @@ public class Cliente {
                         TFin = System.currentTimeMillis();
                         tiempo = TFin - TInicio;
                         //llenado de resultado
-                        resultado = new Resultado(key,tiempo,id,tarea.nzeros,tarea.mensaje);
+                        resultado = new Resultado(key,tiempo,id,tarea.nzeros,tarea.mensaje, thedigest);
                         System.out.println("encontrado");
                         resultado.mostrar();
                         outw.writeObject(resultado);
