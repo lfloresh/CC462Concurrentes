@@ -37,7 +37,7 @@ router.post('/:path?', async (req, res, next) => {
     });
   }
 
-  res.json({
+  res.status(200).json({
     success: true,
     message: 'Files successfully uploaded',
     path: dirPath.relativePath

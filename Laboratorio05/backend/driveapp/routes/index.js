@@ -6,7 +6,7 @@ const contentRouter = require('../methods/content')
 const router =  express.Router()
 
 router.get('/', (req, res) =>{
-    res.send("API de almacenamiento")
+    res.send("Almacenamiento")
 })
 
 router.use('/upload', uploadRouter)

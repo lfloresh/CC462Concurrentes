@@ -10,6 +10,7 @@ router.get('/:path?', async (req, res, next) => {
 
     for await (const dirent of dir) {
       if (dirent.isDirectory()) {
+        
         content.directories.push(dirent.name);
       } else {
         content.files.push(dirent.name);
@@ -18,7 +19,7 @@ router.get('/:path?', async (req, res, next) => {
     content.directories.sort()
     content.files.sort()
 
-    res.json({ path: dirPath.relativePath, content, success: true });
+    res.status(200).json({ path: dirPath.relativePath, content, success: true });
   }
   catch (err) {
     next(err);
