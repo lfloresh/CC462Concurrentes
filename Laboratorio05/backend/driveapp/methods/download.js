@@ -1,49 +1,50 @@
 const router = require('express').Router()
 const fs = require('fs')
+const fsmove = require('fs-extra').move
 const fspromises = require('fs').promises
 const mime = require('mime-types')
 const processPath = require('../lib/path')
-var archiver = require('archiver')
+const AdmZip = require('adm-zip')
+const slash = process.platform === 'win32' ? `\\` : '/'
 
 router.get('/:path', async (req, res) => {
         var file = processPath(req.params.path).absolutePath;
-        var dirname = processPath(req.params.path).relativePath;
-        const stat = await fspromises.lstat(file);
+        var dirname = processPath(req.params.path).name;
 
+        const stat = await fspromises.lstat(file);
+        
         if(stat.isDirectory()){
             
-            const output = fs.createWriteStream(`${process.env.HOME_TEMP}\\${dirname}.zip`)
-            var archive = archiver('zip'); 
-            output.on('close', function () { 
-            console.log(archive.pointer() + ' total bytes'); 
-            console.log('archiver has been finalized and the output file descriptor has closed.'); 
-            }); 
-
-            archive.on('error', function(err){ 
-                throw err; 
-            }); 
-
-            archive.pipe(output); 
-            archive.directory(file ,false)
-            archive.finalize();
-            file = `${process.env.HOME_TEMP}\\${dirname}.zip`
-        } 
-        
-        const mimetype = mime.lookup(file);
-        console.log(mimetype);
-        res.setHeader('Content-Disposition', `attachment; filename=${file}`);
-        res.setHeader('Content-Type', mimetype);
-        res.download(file,function (err) {
-            if (err) {
-                console.log(err); // Check error if you want
-              }
-           
-            if (mimetype == "application/zip"){
-                fs.unlink(file, function(){
-                    console.log("File was deleted") // Callback
-                })
+            const uploadDir = fs.readdirSync(file)
+            const zip = new AdmZip()
+            
+            for(var i = 0; i < uploadDir.length; i++){
+                zip.addLocalFile(file+slash+uploadDir[i])
+                //zip.writeZip(`${process.env.HOME_TEMP}` + slash + `${dow}`)
             }
-        })
+            
+            const downloadName = `${Date.now()}.zip`
+            const data = zip.toBuffer()
+            zip.writeZip(`${process.env.HOME_TEMP}` + slash + `${downloadName}`)
+            res.set('Content-Type', 'application/octet-stream');
+            res.set('Content-Disposition', `attachment; filename=${downloadName}`)
+            res.set('Content-Length', data.length)
+            res.send(data)
+        } else{
+            const mimetype = mime.lookup(file);
+            res.setHeader('Content-Disposition', `attachment; filename=${file}`);
+            res.setHeader('Content-Type', mimetype);
+            res.download(file,function (err) {
+                if (err) {
+                    console.log(err); // Check error if you want
+                }
+
+                
+            })
+
+        }
+        
+      
         
 });
 

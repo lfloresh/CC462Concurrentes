@@ -6,6 +6,7 @@ const processPath = require('../lib/path');
 router.post('/:path?', async(req, res, next) =>{
     const dirPath = processPath(req.params.path)
     const name = req.body.name
+    //console.log(name)
     if(!name){
         return res.status(400).json({
             succes: false,
@@ -19,7 +20,7 @@ router.post('/:path?', async(req, res, next) =>{
         return next(e)
     }
 
-    res.json({
+    res.status(200).json({
         succes: true,
         message: 'Directory created'
     })

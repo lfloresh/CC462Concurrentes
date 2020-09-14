@@ -1,0 +1,5 @@
+-para subir un archivo se le da click a subir archivo(escoger archivo) y luego a enviar al servidor
+-Al Crear una carpeta la crea en la ubicacion de la carpeta actual
+
+-Los archivos a subir no debe contener - ni espacios en el nombre para que puedan ser descargados sin problemas.
+-al descargar una carpeta, no deben haber carpetas dentro de ella.
